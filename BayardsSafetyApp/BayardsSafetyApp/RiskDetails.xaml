@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BayardsSafetyApp.RiskDetails">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name ="Header" Grid.Row ="1" HorizontalTextAlignment="Center" FontSize="Large"></Label>
+            <ScrollView  Grid.Row ="3" Padding="10">
+                <Label x:Name="textDetails">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae justo et quam bibendum elementum non eget nibh. Nam elementum risus eget libero cursus cursus.</Label>
+            </ScrollView>
+
+            <Switch x:Name="swt" HorizontalOptions="Center" Grid.Row="5"  IsVisible="True"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

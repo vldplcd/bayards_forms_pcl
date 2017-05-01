@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BayardsSafetyApp.UserAgreementPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="AgrmntLabel" Grid.Row ="2" HorizontalTextAlignment="Center" FontSize="Large"/>
+            <ScrollView  Grid.Row ="3" Padding="10">
+                <Label>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae justo et quam bibendum elementum non eget nibh. Nam elementum risus eget libero cursus cursus. Morbi ut lacus non lacus auctor ultricies vitae sit amet urna. Sed vehicula facilisis lectus, ut imperdiet nisl cursus sit amet. Quisque scelerisque pharetra blandit. Nulla at ante porttitor, molestie dolor et, placerat odio. Nulla auctor porttitor lacinia. Integer vulputate maximus lorem a feugiat. Nam vel volutpat felis. Nulla facilisi. Mauris tincidunt justo non elit porta maximus. Phasellus ac velit accumsan, ultricies risus vel, lacinia elit.Fusce rhoncus purus at quam ornare, imperdiet lacinia dui placerat. Etiam sit amet est cursus, dignissim libero sed, tincidunt nunc. Aliquam maximus, elit et lacinia viverra, sapien odio elementum tortor, a mattis diam diam sed risus. Proin rhoncus consequat est. Donec vel efficitur nisi. Nam tincidunt nunc lectus, et venenatis massa ullamcorper in. Morbi quis neque placerat urna gravida porta quis ac purus. Donec ac nibh non risus viverra semper. Nullam sapien sapien, commodo nec dolor vitae, congue aliquam sem. Morbi a metus nec turpis tristique vestibulum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam orci orci, interdum sed arcu vel, ornare vestibulum arcu. Praesent vehicula ligula nec libero tristique, ut interdum metus vestibulum. Pellentesque suscipit ornare erat sit amet ultrices. Aenean nisi eros, accumsan sed lectus et, bibendum vulputate massa. Nullam dignissim mi eros, eget varius diam consequat ut.</Label>
+            </ScrollView>
+            <Button x:Name="ContinueButton" HorizontalOptions="Center" Grid.Row="5" Clicked="ContinueButton_Clicked" IsVisible="True" BackgroundColor="Green" FontAttributes="Bold" TextColor="White"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
