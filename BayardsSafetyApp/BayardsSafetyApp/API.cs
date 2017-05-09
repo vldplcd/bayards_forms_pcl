@@ -28,31 +28,46 @@ namespace BayardsSafetyApp
         {
             string requestUri = String.Format(UriSectionsListTemplate, language);
             List<Section> result;
-            using (HttpClient hc = new HttpClient())
+            try
             {
-                var responseMsg = await hc.GetAsync(requestUri);
-                var resultStr = await responseMsg.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<ShellRequest<Section>>(resultStr).Data;
+                using (HttpClient hc = new HttpClient() { MaxResponseContentBufferSize = 256000 })
+                {
+                    var responseMsg = hc.GetAsync(requestUri).Result;
+                    var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
+                    var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Sections = new List<Section>() });
+                    //result = JsonConvert.DeserializeObject<ShellRequest<Section>>(resultStr).Data;
+                    result = res.Sections;
+                    if (result.Count == 0 || result[0].Id_s == null)
+                        throw new Exception("No info downloaded. Trying to retry");
+                }
+                return result;
             }
-            return result;
+            catch
+            {
+                throw new Exception("An error occured. Trying to retry");
+            }
         }
+
+
         /// <summary>
         /// Method that gets the list of all risks and subsections from specified section by id and language
         /// </summary>
         /// <param name="section"></param>
         /// <returns></returns> 
-        public async Task<List<SafetyObject>> getSectionContent(string Id, string language)
+        public async Task<SectionContents> getSectionContent(string Id, string language)
         {
-            List<SafetyObject> result;
+            SectionContents result;
             string requestUri = String.Format(UriSectionContent, Id, language);
             using (HttpClient hc = new HttpClient())
             {
                 var responseMsg = await hc.GetAsync(requestUri);
                 var resultStr = await responseMsg.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<ShellRequest<SafetyObject>>(resultStr).Data;
+                result = JsonConvert.DeserializeObject<SectionContents>(resultStr);
             }
             return result;
         }
+
+
         /// <summary>
         /// Method that sends password to the server
         /// </summary>
@@ -81,7 +96,9 @@ namespace BayardsSafetyApp
             {
                 var responseMsg = await hc.GetAsync(requestUri);
                 var resultStr = await responseMsg.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<ShellRequest<Risk>>(resultStr).Data[0];
+                var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Risk = new Risk(), Media = new List<string>() });
+                res.Risk.Media = res.Media;
+                result = res.Risk;
             }
             return result;
         }

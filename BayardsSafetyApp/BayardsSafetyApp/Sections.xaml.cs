@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BayardsSafetyApp.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,19 +13,42 @@ namespace BayardsSafetyApp
         {
 
             InitializeComponent();
-            var Collection = new List<string> { "1", "2", "3" };
-            for (int i = 0; i < 30; i++)
-            {
-                Collection.Add("Section " + i.ToString());
-            }
-            BindingContext = Collection;
+ 
             Title = "Contents";
 
         }
+
+        List<Section> _contents;
+        public List<Section> Contents
+        {
+            get { return _contents; }
+            set
+            {
+                _contents = value;
+                OnPropertyChanged();
+            }
+        }
+
+        
 
         private void SectionButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Risks(((Button)sender).CommandParameter.ToString()));
         }
+
+        private void Sections_OnAppearing(object sender, EventArgs e)
+        {
+            API api = new API();
+            try
+            {
+                
+                Contents = api.getCompleteSectionsList("eng").Result;
+                Label1.Text = Contents[0].Name;
+            }
+            catch (Exception ex)
+            {
+               DisplayAlert("Error", ex.Message, "Ok");
+            }
+         }
     }
 }

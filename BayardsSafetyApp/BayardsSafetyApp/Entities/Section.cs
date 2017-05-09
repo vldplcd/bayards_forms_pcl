@@ -1,7 +1,11 @@
-﻿namespace BayardsSafetyApp.Entities
+﻿using System.Collections.Generic;
+
+namespace BayardsSafetyApp.Entities
 {
     public class Section : SafetyObject
     {
-        public bool isASubsection;
+        public string Id_s { get; set; }
+        public bool isASubsection { get; set; }
+
     }
 }

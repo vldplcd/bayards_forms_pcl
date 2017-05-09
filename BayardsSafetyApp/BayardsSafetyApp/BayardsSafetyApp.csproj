@@ -41,6 +41,7 @@
     </Compile>
     <Compile Include="AppResources\PlatformCulture.cs" />
     <Compile Include="DTO\ShellRequest.cs" />
+    <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Risk.cs" />
     <Compile Include="Entities\SafetyObject.cs" />
     <Compile Include="Entities\Section.cs" />
@@ -55,6 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LangResources.nl.resx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\SectionContents.cs" />
     <Compile Include="LocalePage.xaml.cs">
       <DependentUpon>LocalePage.xaml</DependentUpon>
     </Compile>
