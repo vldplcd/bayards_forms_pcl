@@ -1,6 +1,9 @@
-﻿using System;
+﻿using BayardsSafetyApp.Entities;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace BayardsSafetyApp
@@ -11,7 +14,8 @@ namespace BayardsSafetyApp
         public MainPage()
         {
             InitializeComponent();
-            IsLoading = false;
+            AInd.IsEnabled = false;
+            AInd.IsRunning = false;
         }
 
         bool _isLoading;
@@ -26,28 +30,77 @@ namespace BayardsSafetyApp
         }
 
         private string password = string.Empty;
-        private void ContinueButton_Clicked(object sender, EventArgs e)
+        private async void ContinueButton_Clicked(object sender, EventArgs e)
         {
-            IsLoading = true;
-            var api = new API();
-            if (api.isPasswordCorrect(PasswordEntry.Text))
+            AInd.IsEnabled = true;
+            AInd.IsRunning = true;
+            ContinueButton.IsEnabled = false;
+            try
             {
-                if (Application.Current.Properties.ContainsKey("LocAgr") && (bool)Application.Current.Properties["LocAgr"])
-                    Navigation.PushAsync(new Sections());
-                else
-                    Navigation.PushAsync(new LocalePage());
+                await Task.Run(async () =>
+                {
+
+                    var api = new API();
+                    if (api.isPasswordCorrect(PasswordEntry.Text))
+                    {
+                        if (Application.Current.Properties.ContainsKey("LocAgr") && (bool)Application.Current.Properties["LocAgr"])
+                        {
+                            var AllSections = new Sections();
+                            AllSections.Contents = await LoadSections();
+                            Navigation.PushAsync(AllSections);
+                        }
+
+                        else
+                            Navigation.PushAsync(new LocalePage());
+                    }
+                    else
+                    {
+                        throw new Exception("Incorrect");
+                    }
+                });
             }
-            else
+            catch(TaskCanceledException ex)
             {
-                DisplayAlert("Warning", "The password is incorrect", "OK");
-                IsLoading = false;
+                await DisplayAlert("Warning", "The server doesn't responds", "OK");
             }
+            catch(Exception ex)
+            {
+                if(ex.Message.StartsWith("Incorrect"))
+                    await DisplayAlert("Warning", "The password is incorrect", "OK");
+            }
+            AInd.IsEnabled = false;
+            AInd.IsRunning = false;
+            ContinueButton.IsEnabled = true;
+
         }
 
         private void PasswordEntry_Completed(object sender, EventArgs e)
         {
 
             password = ((Entry)sender).Text;
+        }
+
+        private async Task<List<Section>> LoadSections()
+        {
+            List<Section> contents = new List<Section>();
+            API api = new API();
+            bool flag = false;
+            while (!flag)
+            {
+                try
+                {
+                    contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
+                    flag = true;
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.Message.StartsWith("A task"))
+                    {
+                        throw new TaskCanceledException();
+                    }
+                }
+            }
+            return contents;
         }
     }
 }
