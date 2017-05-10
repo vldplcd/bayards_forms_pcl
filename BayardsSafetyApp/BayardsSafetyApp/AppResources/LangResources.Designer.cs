@@ -89,6 +89,15 @@ namespace BayardsSafetyApp.AppResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на eng.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Please choose the language below.
         /// </summary>
         public static string LocaleLabel {

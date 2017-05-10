@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BayardsSafetyApp.Entities;
+using System;
 using Xamarin.Forms.Xaml;
 
 namespace BayardsSafetyApp
@@ -7,11 +8,12 @@ namespace BayardsSafetyApp
     public partial class RiskDetails
     {
         public string RiskId { get; set; }
-        public RiskDetails(string riskId, string riskName)
+        public RiskDetails(Risk risk)
         {
             InitializeComponent();
-            Header.Text = riskName;
-            RiskId = riskId;
+            Header.Text = risk.Name;
+            RiskId = risk.Id_r;
+            textDetails.Text = risk.Content;
 
         }
         private void NextButton_Clicked(object sender, EventArgs e)

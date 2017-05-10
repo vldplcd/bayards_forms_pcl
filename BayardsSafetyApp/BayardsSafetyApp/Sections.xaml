@@ -2,11 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BayardsSafetyApp.Sections"
-             Appearing="Sections_OnAppearing">
+             Appearing="Sections_OnAppearing" >
 
 
     <ContentPage.Content>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
@@ -14,20 +13,21 @@
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0*"/>
                 <ColumnDefinition Width="9*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name ="Label1" Grid.Row ="0" Grid.Column ="1"></Label>
-            <ListView HasUnevenRows="True" 
-                      ItemsSource="{Binding Contents}" Grid.Row="1" Grid.Column="1">
+            <ActivityIndicator
+                           IsVisible= "{Binding IsLoading}"
+                           IsRunning="{Binding IsLoading}" Grid.Row ="1" Grid.Column ="1" HorizontalOptions="StartAndExpand"/>
+            <ListView x:Name ="sectView" HasUnevenRows="True" 
+                       Grid.Row="1" Grid.Column="1" ItemSelected="SectionButton_Clicked">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                
-                                <Button CommandParameter="{Binding Id_s}" Text="{Binding Name}" Clicked="SectionButton_Clicked" BackgroundColor="Transparent" BorderColor="Transparent" TextColor="Black" Style="shadow: none"/>
-                            </StackLayout>
+                                <Label Text="{Binding Name}" HeightRequest="40" VerticalOptions="CenterAndExpand" FontSize="Large" TextColor="Black"></Label>
+                            </StackLayout>                            
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

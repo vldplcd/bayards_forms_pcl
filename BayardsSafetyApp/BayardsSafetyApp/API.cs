@@ -15,7 +15,7 @@ namespace BayardsSafetyApp
 
         const string UriSectionsListTemplate = "https://bayardssb-php.000webhostapp.com/api/allSections?lang={0}";
         const string UriSectionContent = "https://bayardssb-php.000webhostapp.com/api/section?sectionid={0}&&lang={1}";
-        const string UriRiskContent = "https://bayardssb-php.000webhostapp.com/api/?riskid={0}&&lang={1}";
+        const string UriRiskContent = "https://bayardssb-php.000webhostapp.com/api/risk?riskid={0}&lang={1}";
 
         //TODO: 
         //Добавить поисковые запросы в функционал API
@@ -60,9 +60,11 @@ namespace BayardsSafetyApp
             string requestUri = String.Format(UriSectionContent, Id, language);
             using (HttpClient hc = new HttpClient())
             {
-                var responseMsg = await hc.GetAsync(requestUri);
-                var resultStr = await responseMsg.Content.ReadAsStringAsync();
+                var responseMsg = hc.GetAsync(requestUri).Result;
+                var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
                 result = JsonConvert.DeserializeObject<SectionContents>(resultStr);
+                if (result.Section == null)
+                    throw new Exception("No info downloaded. Trying to retry");
             }
             return result;
         }
@@ -94,11 +96,13 @@ namespace BayardsSafetyApp
             string requestUri = string.Format(UriRiskContent, Id, language);
             using (HttpClient hc = new HttpClient())
             {
-                var responseMsg = await hc.GetAsync(requestUri);
-                var resultStr = await responseMsg.Content.ReadAsStringAsync();
+                var responseMsg = hc.GetAsync(requestUri).Result;
+                var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
                 var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Risk = new Risk(), Media = new List<string>() });
                 res.Risk.Media = res.Media;
                 result = res.Risk;
+                if (result.Id_r == null)
+                    throw new Exception("No info downloaded. Trying to retry");
             }
             return result;
         }

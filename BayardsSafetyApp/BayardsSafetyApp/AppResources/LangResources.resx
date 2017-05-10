@@ -126,6 +126,9 @@
   <data name="EnButton" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>eng</value>
+  </data>
   <data name="LocaleLabel" xml:space="preserve">
     <value>Please choose the language below</value>
   </data>

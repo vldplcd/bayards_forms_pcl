@@ -11,11 +11,24 @@ namespace BayardsSafetyApp
         public MainPage()
         {
             InitializeComponent();
+            IsLoading = false;
+        }
+
+        bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
         }
 
         private string password = string.Empty;
         private void ContinueButton_Clicked(object sender, EventArgs e)
         {
+            IsLoading = true;
             var api = new API();
             if (api.isPasswordCorrect(PasswordEntry.Text))
             {
@@ -27,6 +40,7 @@ namespace BayardsSafetyApp
             else
             {
                 DisplayAlert("Warning", "The password is incorrect", "OK");
+                IsLoading = false;
             }
         }
 

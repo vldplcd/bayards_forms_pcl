@@ -13,8 +13,9 @@ namespace BayardsSafetyApp
         {
 
             InitializeComponent();
- 
+            IsLoading = false;
             Title = "Contents";
+            
 
         }
 
@@ -28,27 +29,52 @@ namespace BayardsSafetyApp
                 OnPropertyChanged();
             }
         }
-
-        
-
-        private void SectionButton_Clicked(object sender, EventArgs e)
+        bool _isLoading;
+        public bool IsLoading
         {
-            Navigation.PushAsync(new Risks(((Button)sender).CommandParameter.ToString()));
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected override Boolean OnBackButtonPressed()
+        {
+            base.OnBackButtonPressed();
+            return true;
+        }
+        private void SectionButton_Clicked(object sender, SelectedItemChangedEventArgs e)
+        {
+            IsLoading = true;
+            if (e.SelectedItem == null)
+            {
+                return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
+            }
+            Navigation.PushAsync(new Risks(((Section)e.SelectedItem).Id_s, ((Section)e.SelectedItem).Name));
         }
 
         private void Sections_OnAppearing(object sender, EventArgs e)
         {
             API api = new API();
-            try
+            bool flag = false;
+            while (!flag)
             {
-                
-                Contents = api.getCompleteSectionsList("eng").Result;
-                Label1.Text = Contents[0].Name;
+                try
+                {
+                    Contents = api.getCompleteSectionsList(AppResources.LangResources.Language).Result;
+                    sectView.ItemsSource = _contents;
+                    flag = true;
+                }
+                catch (Exception ex)
+                {
+                    //DisplayAlert("Error", ex.Message, "Ok");
+                }
             }
-            catch (Exception ex)
-            {
-               DisplayAlert("Error", ex.Message, "Ok");
-            }
+            
          }
+
+
     }
 }

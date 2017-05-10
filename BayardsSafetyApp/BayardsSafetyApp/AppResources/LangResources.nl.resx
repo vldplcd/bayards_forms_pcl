@@ -126,6 +126,9 @@
   <data name="EnButton" xml:space="preserve">
     <value>Engels</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>nl</value>
+  </data>
   <data name="LocaleLabel" xml:space="preserve">
     <value>Kies hieronder de taal hieronder</value>
   </data>

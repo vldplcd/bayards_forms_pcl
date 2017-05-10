@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
-using Android.Media;
+//using Android.Media;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -1,29 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BayardsSafetyApp.Risks">
+             x:Class="BayardsSafetyApp.Risks"
+             Appearing="Page_Appeared">
 
     <ContentPage.Content>
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="10*"/>
-
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0*"/>
                 <ColumnDefinition Width="9*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0*"/>
             </Grid.ColumnDefinitions>
-
-            <ListView HasUnevenRows="True" 
- ItemsSource="{Binding}" Grid.Row="1" Grid.Column="1">
+            <ActivityIndicator
+                           IsVisible= "{Binding IsLoading}"
+                           IsRunning="{Binding IsLoading}" Grid.Row ="1" Grid.Column ="1" HorizontalOptions="StartAndExpand"/>
+            <Label Grid.Row="0" Grid.Column="1">Subsections</Label>
+            <ListView x:Name ="sectView" HasUnevenRows="True" 
+                       Grid.Row="1" Grid.Column="1" ItemSelected="sectView_ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                <Button CommandParameter="{Binding}" Text="{Binding}" Clicked="RiskButton_Clicked"/>
+                                <Label Text="{Binding Name}" HeightRequest="40" VerticalOptions="CenterAndExpand" FontSize="Large" TextColor="Black"></Label>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Grid.Row="2" Grid.Column="1">Risks</Label>
+            <ListView x:Name ="riskView" HasUnevenRows="True" 
+                       Grid.Row="3" Grid.Column="1" ItemSelected="RiskButton_Clicked">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                <Label Text="{Binding Name}" HeightRequest="40" VerticalOptions="CenterAndExpand" FontSize="Large" TextColor="Black"></Label>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

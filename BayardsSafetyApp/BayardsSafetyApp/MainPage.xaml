@@ -19,7 +19,9 @@
             </Grid.ColumnDefinitions>
 
             <Label HorizontalTextAlignment="Center" Font="30" Grid.Row="1">Welcome to Bayards</Label>
-
+            <ActivityIndicator
+                           IsVisible= "{Binding IsLoading}"
+                           IsRunning="{Binding IsLoading}" Grid.Row ="2" HorizontalOptions="StartAndExpand"/>
             <Label HorizontalTextAlignment="Center" Grid.Row="3">Password</Label>
             <Entry x:Name="PasswordEntry" HorizontalTextAlignment="Center" Margin="40,0" Placeholder="password" BackgroundColor="White" IsPassword="true"  Completed="PasswordEntry_Completed" Grid.Row="4"/>
             <Button x:Name="ContinueButton" HorizontalOptions="Center" Grid.Row="5" Text="Continue" Clicked="ContinueButton_Clicked"/>
