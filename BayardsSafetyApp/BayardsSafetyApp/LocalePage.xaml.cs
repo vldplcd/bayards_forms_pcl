@@ -12,6 +12,7 @@ namespace BayardsSafetyApp
         public LocalePage()
         {
             InitializeComponent();
+            BackgroundColor = Color.FromHex("#efefef");
             LocaleLabel.Text = LangResources.LocaleLabel;
             EnButton.Text = LangResources.EnButton;
             NlButton.Text = LangResources.NlButton;

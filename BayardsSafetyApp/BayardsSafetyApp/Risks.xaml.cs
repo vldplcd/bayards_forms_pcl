@@ -16,7 +16,9 @@ namespace BayardsSafetyApp
             InitializeComponent();
             _sId = sectionId;
             IsLoading = false;
+            BackgroundColor = Color.FromHex("#efefef");
             Title = sectionName;
+            
         }
 
         SectionContents _contents;
@@ -65,7 +67,7 @@ namespace BayardsSafetyApp
                     flag = true;
                     Navigation.PushAsync(new RisksCarousel(_risks, ((Risk)e.SelectedItem).Id_r, Title));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //DisplayAlert("Error", ex.Message, "Ok");
                 }
