@@ -1,8 +1,6 @@
 ﻿using BayardsSafetyApp.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -48,6 +46,7 @@ namespace BayardsSafetyApp
                         {
                             
                             AllSections.Contents = await LoadSections();
+                            //AllSections.Contents = await App.Database.GetItemsAsync<Section>();
                             throw new Exception("1");
                         }
 
@@ -109,6 +108,20 @@ namespace BayardsSafetyApp
                         throw new TaskCanceledException();
                     }
                 }
+            }
+            // Does not work yet
+            // 
+            if (Application.Current.Properties.ContainsKey("UpdateTime") && (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue)
+            {
+                //await App.Database.CreateTable<Media>();
+                //await App.Database.CreateTable<Risk>();
+                //await App.Database.CreateTable<SafetyObject>();
+                await App.Database.CreateTable<Section>();
+                //await App.Database.CreateTable<SectionContents>();
+                foreach (var item in contents)
+                {
+                    await App.Database.InsertItemAsync(item);
+                }     
             }
             return contents;
         }

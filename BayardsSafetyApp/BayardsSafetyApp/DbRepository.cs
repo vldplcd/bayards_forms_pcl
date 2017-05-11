@@ -9,9 +9,10 @@ namespace BayardsSafetyApp
     public class DbRepository : IDbRepository
     {
         SQLiteAsyncConnection context;
-
+        
         public DbRepository(string filename)
         {
+            
             string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath(filename);
             context = new SQLiteAsyncConnection(databasePath);
         }
@@ -34,11 +35,11 @@ namespace BayardsSafetyApp
         }
         public async Task<int> UpdateItemAsync<T>(T item)
         {
-            return await context.UpdateAsync(item);////////////
+            return await context.UpdateAsync(item);
         }
         public async Task<int> InsertItemAsync<T>(T item)
         {
-            return await context.InsertAsync(item);
+            return await context.InsertOrReplaceAsync(item);
         }
 
         private bool disposed = false;
