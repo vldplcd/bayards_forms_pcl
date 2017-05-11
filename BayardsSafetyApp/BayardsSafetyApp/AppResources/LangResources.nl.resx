@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AgrmntLabel" xml:space="preserve">
-    <value>Ik ben het eens</value>
+    <value>Gebruikersovereenkomst</value>
   </data>
   <data name="ContinueButton" xml:space="preserve">
-    <value>Gebruikersovereenkomst</value>
+    <value>Ik ben het eens</value>
   </data>
   <data name="EnButton" xml:space="preserve">
     <value>Engels</value>
+  </data>
+  <data name="IncPassword" xml:space="preserve">
+    <value>Het wachtwoord is incorrect</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>nl</value>
@@ -132,7 +135,16 @@
   <data name="LocaleLabel" xml:space="preserve">
     <value>Kies hieronder de taal hieronder</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
   <data name="NlButton" xml:space="preserve">
     <value>Nederlands</value>
+  </data>
+  <data name="PasswLabel" xml:space="preserve">
+    <value>Voer het wachtwoord in</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Instellingen</value>
   </data>
 </root>

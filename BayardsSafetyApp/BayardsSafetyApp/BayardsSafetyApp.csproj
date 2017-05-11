@@ -67,6 +67,9 @@
     <Compile Include="RisksCarousel.xaml.cs">
       <DependentUpon>RisksCarousel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserAgreementPage.xaml.cs">
       <DependentUpon>UserAgreementPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="RisksCarousel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

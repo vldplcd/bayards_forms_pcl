@@ -62,7 +62,7 @@ namespace BayardsSafetyApp.AppResources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на I agree.
+        ///   Ищет локализованную строку, похожую на User agreement.
         /// </summary>
         public static string AgrmntLabel {
             get {
@@ -71,7 +71,7 @@ namespace BayardsSafetyApp.AppResources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на User agreement.
+        ///   Ищет локализованную строку, похожую на I agree.
         /// </summary>
         public static string ContinueButton {
             get {
@@ -85,6 +85,15 @@ namespace BayardsSafetyApp.AppResources {
         public static string EnButton {
             get {
                 return ResourceManager.GetString("EnButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The password is incorrect.
+        /// </summary>
+        public static string IncPassword {
+            get {
+                return ResourceManager.GetString("IncPassword", resourceCulture);
             }
         }
         
@@ -107,11 +116,38 @@ namespace BayardsSafetyApp.AppResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Dutch.
         /// </summary>
         public static string NlButton {
             get {
                 return ResourceManager.GetString("NlButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter your password.
+        /// </summary>
+        public static string PasswLabel {
+            get {
+                return ResourceManager.GetString("PasswLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
     }

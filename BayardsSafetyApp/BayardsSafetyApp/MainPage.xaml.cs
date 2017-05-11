@@ -35,8 +35,9 @@ namespace BayardsSafetyApp
             AInd.IsEnabled = true;
             AInd.IsRunning = true;
             ContinueButton.IsEnabled = false;
+            var AllSections = new Sections();
             try
-            {
+            {                
                 await Task.Run(async () =>
                 {
 
@@ -45,28 +46,33 @@ namespace BayardsSafetyApp
                     {
                         if (Application.Current.Properties.ContainsKey("LocAgr") && (bool)Application.Current.Properties["LocAgr"])
                         {
-                            var AllSections = new Sections();
+                            
                             AllSections.Contents = await LoadSections();
-                            Navigation.PushAsync(AllSections);
+                            throw new Exception("1");
                         }
 
                         else
-                            Navigation.PushAsync(new LocalePage());
+                            throw new Exception("2");
                     }
                     else
                     {
                         throw new Exception("Incorrect");
                     }
                 });
+                
             }
             catch(TaskCanceledException ex)
             {
-                await DisplayAlert("Warning", "The server doesn't responds", "OK");
+                await DisplayAlert("Warning", "The server doesn't respond", "OK");
             }
             catch(Exception ex)
             {
                 if(ex.Message.StartsWith("Incorrect"))
                     await DisplayAlert("Warning", "The password is incorrect", "OK");
+                if (ex.Message.StartsWith("1"))
+                    await Navigation.PushAsync(AllSections);
+                if (ex.Message.StartsWith("2"))
+                    await Navigation.PushAsync(new LocalePage());
             }
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
@@ -92,6 +98,10 @@ namespace BayardsSafetyApp
                     contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
                     flag = true;
                 }
+                catch (Newtonsoft.Json.JsonReaderException)
+                {
+                    throw new TaskCanceledException();
+                }
                 catch (Exception ex)
                 {
                     if (ex.InnerException != null && ex.InnerException.Message.StartsWith("A task"))
@@ -101,6 +111,11 @@ namespace BayardsSafetyApp
                 }
             }
             return contents;
+        }
+
+        private void SearchBar_Activated(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new SearchPage());
         }
     }
 }
