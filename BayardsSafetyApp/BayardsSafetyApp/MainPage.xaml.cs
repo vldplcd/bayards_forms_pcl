@@ -14,6 +14,7 @@ namespace BayardsSafetyApp
             InitializeComponent();
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
+            BackgroundColor = Color.FromHex("#efefef");
         }
 
         bool _isLoading;

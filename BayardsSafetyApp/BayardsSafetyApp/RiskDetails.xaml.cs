@@ -1,5 +1,6 @@
 ﻿using BayardsSafetyApp.Entities;
 using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace BayardsSafetyApp
@@ -11,6 +12,7 @@ namespace BayardsSafetyApp
         public RiskDetails(Risk risk)
         {
             InitializeComponent();
+            BackgroundColor = Color.FromHex("#efefef");
             Header.Text = risk.Name;
             RiskId = risk.Id_r;
             textDetails.Text = risk.Content;
