@@ -1,12 +1,24 @@
-﻿using System.Globalization;
-using BayardsSafetyApp.AppResources;
+﻿using BayardsSafetyApp.AppResources;
 using Xamarin.Forms;
 
 namespace BayardsSafetyApp
 {
     public partial class App : Application
     {
-        public static bool LocAgr = false;
+        public const string DATABASE_NAME = "bayards.db";
+        public static DbRepository database;
+        public static DbRepository Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new DbRepository(DATABASE_NAME);
+                }
+                return database;
+            }
+        }
+
         public App()
         {
             InitializeComponent();

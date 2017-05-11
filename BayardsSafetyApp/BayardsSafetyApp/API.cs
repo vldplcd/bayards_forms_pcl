@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using BayardsSafetyApp.Entities;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using BayardsSafetyApp.DTO;
 
 namespace BayardsSafetyApp
 {

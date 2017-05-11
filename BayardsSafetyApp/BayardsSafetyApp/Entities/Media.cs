@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SQLite;
 
 namespace BayardsSafetyApp.Entities
 {
-    class Media
+    [Table("Media")]
+    public class Media
     {
+        [PrimaryKey, AutoIncrement, Column("_id")]
+        public int Id { get; set; }
+
+        [Column("url"), Unique]
         public string Url { get; set; }
+        [Column("type")]
         public string Type { get; set; }
     }
 }
