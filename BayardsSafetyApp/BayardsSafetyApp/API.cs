@@ -28,7 +28,7 @@ namespace BayardsSafetyApp
             List<Section> result;
             try
             {
-                using (HttpClient hc = new HttpClient() { MaxResponseContentBufferSize = 256000 })
+                using (HttpClient hc = new HttpClient() { Timeout = new TimeSpan(0,0,30)})
                 {
                     var responseMsg = hc.GetAsync(requestUri).Result;
                     var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
@@ -36,13 +36,13 @@ namespace BayardsSafetyApp
                     //result = JsonConvert.DeserializeObject<ShellRequest<Section>>(resultStr).Data;
                     result = res.Sections;
                     if (result.Count == 0 || result[0].Id_s == null)
-                        throw new Exception("No info downloaded. Trying to retry");
+                        throw new Exception("No info downloaded.");
                 }
                 return result;
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("An error occured. Trying to retry");
+                throw ex;
             }
         }
 

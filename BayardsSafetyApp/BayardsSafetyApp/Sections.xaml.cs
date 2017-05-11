@@ -14,8 +14,7 @@ namespace BayardsSafetyApp
 
             InitializeComponent();
             IsLoading = false;
-            Title = "Contents";
-            
+            Title = "Contents";         
 
         }
 
@@ -57,23 +56,8 @@ namespace BayardsSafetyApp
 
         private void Sections_OnAppearing(object sender, EventArgs e)
         {
-            API api = new API();
-            bool flag = false;
-            while (!flag)
-            {
-                try
-                {
-                    Contents = api.getCompleteSectionsList(AppResources.LangResources.Language).Result;
-                    sectView.ItemsSource = _contents;
-                    flag = true;
-                }
-                catch (Exception ex)
-                {
-                    //DisplayAlert("Error", ex.Message, "Ok");
-                }
-            }
-            
-         }
+            sectView.ItemsSource = _contents;
+        }
 
 
     }

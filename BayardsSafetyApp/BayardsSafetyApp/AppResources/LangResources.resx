@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AgrmntLabel" xml:space="preserve">
-    <value>I agree</value>
+    <value>User agreement</value>
   </data>
   <data name="ContinueButton" xml:space="preserve">
-    <value>User agreement</value>
+    <value>I agree</value>
   </data>
   <data name="EnButton" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="IncPassword" xml:space="preserve">
+    <value>The password is incorrect</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>eng</value>
@@ -132,7 +135,16 @@
   <data name="LocaleLabel" xml:space="preserve">
     <value>Please choose the language below</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
   <data name="NlButton" xml:space="preserve">
     <value>Dutch</value>
+  </data>
+  <data name="PasswLabel" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>
