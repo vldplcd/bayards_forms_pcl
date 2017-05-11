@@ -81,6 +81,7 @@ namespace BayardsSafetyApp
                     await Navigation.PushAsync(AllSections);
                 if (ex.Message.StartsWith("2"))
                     await Navigation.PushAsync(new LocalePage());
+                await DisplayAlert("Warning", ex.Message, "OK");
             }
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
@@ -124,15 +125,15 @@ namespace BayardsSafetyApp
             //    (DateTime) Application.Current.Properties["UpdateTime"] < DateTime.MaxValue)
             //{
             //}
-                await App.Database.CreateTable<Media>();
-                await App.Database.CreateTable<Risk>();
-                await App.Database.CreateTable<SafetyObject>();
-                await App.Database.CreateTable<Section>();
-                await App.Database.CreateTable<SectionContents>();
-                foreach (var item in contents)
-                {
-                    await App.Database.InsertItemAsync(item);
-                }     
+                //await App.Database.CreateTable<Media>();
+                //await App.Database.CreateTable<Risk>();
+                //await App.Database.CreateTable<SafetyObject>();
+                //await App.Database.CreateTable<Section>();
+                //await App.Database.CreateTable<SectionContents>();
+                //foreach (var item in contents)
+                //{
+                //    await App.Database.InsertItemAsync(item);
+                //}     
             
             Application.Current.Properties["UpdateTime"] = DateTime.Now;
             return contents;

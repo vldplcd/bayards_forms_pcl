@@ -39,7 +39,10 @@ namespace BayardsSafetyApp
         }
         public async Task<int> InsertItemAsync<T>(T item)
         {
-            return await context.InsertOrReplaceAsync(item);
+            var res = context.InsertAsync(item).Result;
+            if (res.Equals(0))
+                return await context.UpdateAsync(item);
+            return res;
         }
 
         private bool disposed = false;
