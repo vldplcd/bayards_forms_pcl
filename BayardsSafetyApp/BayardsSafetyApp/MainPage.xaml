@@ -20,7 +20,7 @@
 
 
 
-            <Button x:Name="SearchBar" Text="Search" Clicked="SearchBar_Activated" Grid.Row="0"/>
+            
 
             
             <Label HorizontalTextAlignment="Center" Font="30" Grid.Row="1">Welcome to Bayards</Label>

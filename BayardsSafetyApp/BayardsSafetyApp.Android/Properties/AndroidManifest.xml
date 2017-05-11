@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="1.3" package="BSA.BSA" android:versionCode="9">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="1.4" package="BSA.BSA" android:versionCode="11">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
 	<application android:label="BayardsSafetyApp" android:icon="@drawable/icon"></application>
 </manifest>

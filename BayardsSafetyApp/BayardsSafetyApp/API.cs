@@ -13,9 +13,9 @@ namespace BayardsSafetyApp
     public class API
     {
 
-        const string UriSectionsListTemplate = "https://bayardssb-php.000webhostapp.com/api/allSections?lang={0}";
-        const string UriSectionContent = "https://bayardssb-php.000webhostapp.com/api/section?sectionid={0}&&lang={1}";
-        const string UriRiskContent = "https://bayardssb-php.000webhostapp.com/api/risk?riskid={0}&lang={1}";
+        const string UriSectionsListTemplate = "http://vhost29386.cpsite.ru/api/allSections?lang={0}";
+        const string UriSectionContent = "http://vhost29386.cpsite.ru/api/section?sectionid={0}&&lang={1}";
+        const string UriRiskContent = "http://vhost29386.cpsite.ru/api/risk?riskid={0}&lang={1}";
 
         //TODO: 
         //Добавить поисковые запросы в функционал API
