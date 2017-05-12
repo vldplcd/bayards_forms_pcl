@@ -11,9 +11,9 @@ namespace BayardsSafetyApp
     public class API
     {
 
-        const string UriSectionsListTemplate = "http://vhost29386.cpsite.ru/api/allSections?lang={0}";
-        const string UriSectionContent = "http://vhost29386.cpsite.ru/api/section?sectionid={0}&&lang={1}";
-        const string UriRiskContent = "http://vhost29386.cpsite.ru/api/risk?riskid={0}&lang={1}";
+        const string UriSectionsListTemplate = "http://vhost29450.cpsite.ru/api/allSections?lang={0}";
+        const string UriSectionContent = "http://vhost29450.cpsite.ru/api/section?sectionid={0}&lang={1}";
+        const string UriRiskContent = "http://vhost29450.cpsite.ru/api/risk?riskid={0}&lang={1}";
 
         //TODO: 
         //Добавить поисковые запросы в функционал API
@@ -26,24 +26,33 @@ namespace BayardsSafetyApp
         {
             string requestUri = String.Format(UriSectionsListTemplate, language);
             List<Section> result;
-            try
+            int n = 0;
+            while (n < 4)
             {
-                using (HttpClient hc = new HttpClient() { Timeout = new TimeSpan(0,0,30)})
+                try
                 {
-                    var responseMsg = hc.GetAsync(requestUri).Result;
-                    var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
-                    var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Sections = new List<Section>() });
-                    //result = JsonConvert.DeserializeObject<ShellRequest<Section>>(resultStr).Data;
-                    result = res.Sections;
-                    if (result.Count == 0 || result[0].Id_s == null)
-                        throw new Exception("No info downloaded.");
+
+                    using (HttpClient hc = new HttpClient() { Timeout = new TimeSpan(0, 0, 10) })
+                    {
+                        var responseMsg = hc.GetAsync(requestUri).Result;
+                        var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
+                        var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Sections = new List<Section>() });
+                        //result = JsonConvert.DeserializeObject<ShellRequest<Section>>(resultStr).Data;
+                        result = res.Sections;
+                        if (result.Count == 0 || result[0].Id_s == null)
+                            throw new Exception("No info downloaded.");
+                    }
+                    return result;
                 }
-                return result;
+                catch (Exception ex)
+                {
+                    n++;
+                    if (n == 4)
+                        throw ex;
+                }
             }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+            return null;
+
         }
 
 
@@ -56,15 +65,30 @@ namespace BayardsSafetyApp
         {
             SectionContents result;
             string requestUri = String.Format(UriSectionContent, Id, language);
-            using (HttpClient hc = new HttpClient())
+            int n = 0;
+            while (n < 4)
             {
-                var responseMsg = hc.GetAsync(requestUri).Result;
-                var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject<SectionContents>(resultStr);
-                if (result.Section == null)
-                    throw new Exception("No info downloaded. Trying to retry");
+                try
+                {
+                    using (HttpClient hc = new HttpClient())
+                    {
+                        var responseMsg = hc.GetAsync(requestUri).Result;
+                        var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
+                        result = JsonConvert.DeserializeObject<SectionContents>(resultStr);
+                        if (result.Section == null)
+                            throw new Exception("No info downloaded. Trying to retry");
+                    }
+                    return result;
+                }
+
+                catch (Exception ex)
+                {
+                    n++;
+                    if (n == 4)
+                        throw ex;
+                }
             }
-            return result;
+            return null;
         }
 
 
@@ -92,17 +116,32 @@ namespace BayardsSafetyApp
         {
             Risk result;
             string requestUri = string.Format(UriRiskContent, Id, language);
-            using (HttpClient hc = new HttpClient())
+            int n = 0;
+            while (n < 4)
             {
-                var responseMsg = hc.GetAsync(requestUri).Result;
-                var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
-                var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Risk = new Risk(), Media = new List<string>() });
-                res.Risk.Media = res.Media;
-                result = res.Risk;
-                if (result.Id_r == null)
-                    throw new Exception("No info downloaded. Trying to retry");
+                try
+                {
+                    using (HttpClient hc = new HttpClient())
+                    {
+                        var responseMsg = hc.GetAsync(requestUri).Result;
+                        var resultStr = responseMsg.Content.ReadAsStringAsync().Result;
+                        var res = JsonConvert.DeserializeAnonymousType(resultStr, new { Risk = new Risk(), Media = new List<string>() });
+                        res.Risk.Media = res.Media;
+                        result = res.Risk;
+                        if (result.Id_r == null)
+                            throw new Exception("No info downloaded. Trying to retry");
+                    }
+                    return result;
+                }
+
+                catch (Exception ex)
+                {
+                    n++;
+                    if (n == 4)
+                        throw ex;
+                }
             }
-            return result;
+            return null;
         }
     }
 }

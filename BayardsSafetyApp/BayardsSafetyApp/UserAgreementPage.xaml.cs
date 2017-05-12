@@ -44,6 +44,8 @@ namespace BayardsSafetyApp
             {
                 if (ex.Message.StartsWith("1"))
                     await Navigation.PushAsync(AllSections);
+                if (ex.Message.StartsWith("3"))
+                    await Navigation.PushAsync(new LoadingDataPage());
             }
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
@@ -53,6 +55,15 @@ namespace BayardsSafetyApp
         private async Task<List<Section>> LoadSections()
         {
             List<Section> contents = new List<Section>();
+            if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
+                (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
+            {
+                throw new Exception("3");
+            }
+            else
+            {
+                contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
+            }
             API api = new API();
             bool flag = false;
             while (!flag)
@@ -68,12 +79,22 @@ namespace BayardsSafetyApp
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException != null && ex.InnerException.Message.StartsWith("A task"))
+                    if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
                     {
                         throw new TaskCanceledException();
                     }
                 }
             }
+            
+            //await App.Database.CreateTable<Media>();
+            //await App.Database.CreateTable<Risk>();
+            //await App.Database.CreateTable<SafetyObject>();
+            //await App.Database.CreateTable<Section>();
+            //await App.Database.CreateTable<SectionContents>();
+            //foreach (var item in contents)
+            //{
+            //    await App.Database.InsertItemAsync(item);
+            //}
             return contents;
         }
     }

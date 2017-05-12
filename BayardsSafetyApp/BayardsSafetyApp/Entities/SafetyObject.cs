@@ -8,9 +8,5 @@ namespace BayardsSafetyApp.Entities
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
 
-        [Column("name")]
-        public string Name { get; set; }
-        [Column("parent_s")]
-        public string Parent_s { get; set; }
     }
 }

@@ -3,15 +3,16 @@
 namespace BayardsSafetyApp.Entities
 {
     [Table("section")]
-    public class Section : SafetyObject
+    public class Section
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
-
-        [Column("id_s"), Unique]
+        [PrimaryKey, Column("id_s")]
         public string Id_s { get; set; }
-        [Column("is_a_subsection")]
-        public bool isASubsection { get; set; }
+        [Column("parent_s")]
+        public string Parent_s { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
+        [PrimaryKey, Column("lang")]
+        public string Lang { get; set; }
 
     }
 }

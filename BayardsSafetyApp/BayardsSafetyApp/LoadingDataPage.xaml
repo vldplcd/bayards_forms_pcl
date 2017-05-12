@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BayardsSafetyApp.LoadingDataPage"
+             Appearing="ContentPage_Appearing">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row ="1" HorizontalTextAlignment="Center" FontSize ="Medium">Loading Data</Label>
+            <ProgressBar x:Name="PrBar" Grid.Row="3" Progress="{Binding ProgressState}"/>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

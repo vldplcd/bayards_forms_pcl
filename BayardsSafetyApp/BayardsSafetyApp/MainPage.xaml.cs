@@ -45,18 +45,7 @@ namespace BayardsSafetyApp
                     {
                         if (Application.Current.Properties.ContainsKey("LocAgr") && (bool)Application.Current.Properties["LocAgr"])
                         {
-                            if (AppResources.LangResources.Language == "nl")
-                            {
-                                
-                                AllSections.Contents = await App.Database.GetItemsAsync<Section>();
-                            }
-                            else
-                            {
-                                
-                                AllSections.Contents = await LoadSections();
-                            }
-                                
-                            
+                            AllSections.Contents = await LoadSections();                             
                             throw new Exception("1");
                         }
 
@@ -70,7 +59,7 @@ namespace BayardsSafetyApp
                 });
                 
             }
-            catch(TaskCanceledException ex)
+            catch(TaskCanceledException)
             {
                 await DisplayAlert("Warning", "The server doesn't respond", "OK");
             }
@@ -82,7 +71,9 @@ namespace BayardsSafetyApp
                     await Navigation.PushAsync(AllSections);
                 if (ex.Message.StartsWith("2"))
                     await Navigation.PushAsync(new LocalePage());
-                await DisplayAlert("Warning", ex.Message, "OK");
+                if (ex.Message.StartsWith("3"))
+                    await Navigation.PushAsync(new LoadingDataPage());
+                //await DisplayAlert("Warning", ex.Message, "OK");
             }
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
@@ -99,6 +90,15 @@ namespace BayardsSafetyApp
         private async Task<List<Section>> LoadSections()
         {
             List<Section> contents = new List<Section>();
+            if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
+                (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
+            {
+                throw new Exception("3");
+            }
+            else
+            {
+                contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
+            }
             API api = new API();
             bool flag = false;
             while (!flag)
@@ -114,18 +114,13 @@ namespace BayardsSafetyApp
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException != null && ex.InnerException.Message.StartsWith("A task"))
+                    if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
                     {
                         throw new TaskCanceledException();
                     }
                 }
             }
-            // Does not work yet
-            // 
-            //if (Application.Current.Properties.ContainsKey("UpdateTime") &&
-            //    (DateTime) Application.Current.Properties["UpdateTime"] < DateTime.MaxValue)
-            //{
-            //}
+            
                 //await App.Database.CreateTable<Media>();
                 //await App.Database.CreateTable<Risk>();
                 //await App.Database.CreateTable<SafetyObject>();
@@ -134,9 +129,7 @@ namespace BayardsSafetyApp
                 //foreach (var item in contents)
                 //{
                 //    await App.Database.InsertItemAsync(item);
-                //}     
-            
-            Application.Current.Properties["UpdateTime"] = DateTime.Now;
+                //}
             return contents;
         }
 

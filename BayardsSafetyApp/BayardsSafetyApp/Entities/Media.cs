@@ -7,10 +7,11 @@ namespace BayardsSafetyApp.Entities
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
         public int Id { get; set; }
-
         [Column("url"), Unique]
         public string Url { get; set; }
         [Column("type")]
         public string Type { get; set; }
+        [Column("lang")]
+        public string Lang { get; set; }
     }
 }

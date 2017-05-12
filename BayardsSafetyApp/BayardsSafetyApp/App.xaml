@@ -4,7 +4,14 @@
              x:Class="BayardsSafetyApp.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!-- DEFINE ANY CONSTANTS -->
+            <!--<Color x:Key="SeparatorLineColor">#CCCCCC</Color>-->
+            <Color x:Key="myAccentColor">#024924</Color>
+            <Color x:Key="myPrimaryColor">#024924</Color>
+            <Color x:Key="myDarkColor">#024924</Color>
 
-	</Application.Resources>
+        </ResourceDictionary>
+
+    </Application.Resources>
 </Application>

@@ -40,6 +40,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppResources\PlatformCulture.cs" />
+    <Compile Include="DBLoading\LoadData.cs" />
     <Compile Include="IDbRepository.cs" />
     <Compile Include="DbRepository.cs" />
     <Compile Include="DTO\ShellRequest.cs" />
@@ -60,6 +61,9 @@
     </Compile>
     <Compile Include="Entities\SectionContents.cs" />
     <Compile Include="ISQLite.cs" />
+    <Compile Include="LoadingDataPage.xaml.cs">
+      <DependentUpon>LoadingDataPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LocalePage.xaml.cs">
       <DependentUpon>LocalePage.xaml</DependentUpon>
     </Compile>
@@ -195,6 +199,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LoadingDataPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
