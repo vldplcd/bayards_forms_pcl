@@ -9,15 +9,12 @@ namespace BayardsSafetyApp
 {
     public class DbRepository : IDbRepository
     {
-        SQLiteAsyncConnection context;
+        static SQLiteAsyncConnection context;
         
         public DbRepository(string filename)
-        {
-            
+        {          
             string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath(filename);
             context = new SQLiteAsyncConnection(databasePath);
-
-
         }
 
         public async Task CreateTable<T>() where T : new()
@@ -55,6 +52,8 @@ namespace BayardsSafetyApp
             else
                 return 0;
         }
+
+        #region DisposeRegion
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
@@ -72,5 +71,6 @@ namespace BayardsSafetyApp
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

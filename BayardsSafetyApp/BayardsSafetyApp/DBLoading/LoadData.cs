@@ -19,32 +19,25 @@ namespace BayardsSafetyApp.DBLoading
         string[] _langs = new string[] { "eng", "nl" };
         string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
 
-        private async void UploadSections(List<Section> sects)
+        public async void UploadSections(List<Section> sects)
         {
-
-            using (var context = new SQLiteConnection(databasePath))
+            using (var context = App.Database.SectionDatabase)
             {
-                context.CreateTable<Section>();
-                context.CreateTable<Risk>();
-                context.CreateTable<Media>();
-                try
-                {
-                    if (sects.Count != 0)
-                        context.InsertAll(sects, typeof(Section));
-                    if (_risks.Count != 0)
-                        context.InsertAll(_risks, typeof(Risk));
-                    if (_mediaList.Count != 0)
-                        context.InsertAll(_mediaList, typeof(Media));
-                }
-                catch(Exception ex)
-                {
+                await context.CreateTable<Section>();
+                await context.InsertItemsAsync(_sections);
+            }
 
-                }
-                
-            } 
-            //App.Database.CreateTable<Section>().Wait();
-            //App.Database.InsertItemsAsync(sects).Wait();
-            //Application.Current.Properties["AllSections"] = _sections;
+            using (var context = App.Database.RiskDatabase)
+            {
+                await context.CreateTable<Risk>();
+                await context.InsertItemsAsync(_risks);
+            }
+
+            using (var context = App.Database.MediaDatabase)
+            {
+                await context.CreateTable<Media>();
+                await context.InsertItemsAsync(_mediaList);
+            }
         }
         public async Task ToDatabase()
         {

@@ -27,11 +27,11 @@ namespace BayardsSafetyApp
             var AllSections = new Sections();
             try
             {
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
 
                     var api = new API();
-                    AllSections.Contents = await LoadSections();
+                    //AllSections.Contents = await LoadSections();
                     throw new Exception("1");
                 });
 
@@ -52,39 +52,39 @@ namespace BayardsSafetyApp
             ContinueButton.IsEnabled = true;
         }
 
-        private async Task<List<Section>> LoadSections()
-        {
-            List<Section> contents = new List<Section>();
-            if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
-                (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
-            {
-                throw new Exception("3");
-            }
-            else
-            {
-                contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
-            }
-            API api = new API();
-            bool flag = false;
-            while (!flag)
-            {
-                try
-                {
-                    contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
-                    flag = true;
-                }
-                catch (Newtonsoft.Json.JsonReaderException)
-                {
-                    throw new TaskCanceledException();
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
-                    {
-                        throw new TaskCanceledException();
-                    }
-                }
-            }
+        //private async Task<List<Section>> LoadSections()
+        //{
+        //    List<Section> contents = new List<Section>();
+        //    if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
+        //        (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
+        //    {
+        //        throw new Exception("3");
+        //    }
+        //    else
+        //    {
+        //        contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
+        //    }
+        //    API api = new API();
+        //    bool flag = false;
+        //    while (!flag)
+        //    {
+        //        try
+        //        {
+        //            contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
+        //            flag = true;
+        //        }
+        //        catch (Newtonsoft.Json.JsonReaderException)
+        //        {
+        //            throw new TaskCanceledException();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
+        //            {
+        //                throw new TaskCanceledException();
+        //            }
+        //        }
+        //    }
             
             //await App.Database.CreateTable<Media>();
             //await App.Database.CreateTable<Risk>();
@@ -95,7 +95,7 @@ namespace BayardsSafetyApp
             //{
             //    await App.Database.InsertItemAsync(item);
             //}
-            return contents;
-        }
+         //   return contents;
+       // }
     }
 }

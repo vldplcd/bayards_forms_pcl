@@ -44,14 +44,22 @@ namespace BayardsSafetyApp
                 string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
                 List<Risk> a;
                 List<Media> b;
-                using (var context = new SQLiteConnection(databasePath))
+                using (var context = App.Database.SectionDatabase)
                 {
-                    Cont.Contents = context.Table<Section>().ToList();
-                    a = context.Table<Risk>().ToList();
+                    Cont.Contents = await context.GetItemsAsync<Section>();
                 }
-                
-                //Cont.Contents = (List<Section>)Application.Current.Properties["AllSections"];
-                //await Navigation.PushAsync(Cont);
+
+                using (var context = App.Database.RiskDatabase)
+                {
+                    a = await context.GetItemsAsync<Risk>();
+                }
+
+                using (var context = App.Database.MediaDatabase)
+                {
+                    b = await context.GetItemsAsync<Media>();
+                }
+
+                await Navigation.PushAsync(Cont);
                 //while (load.Status == TaskStatus.Running || load.Status == TaskStatus.WaitingToRun || load.Status == TaskStatus.WaitingForActivation)
                 //{
                 //    PrBar.Progress = ld.Process;
@@ -59,7 +67,7 @@ namespace BayardsSafetyApp
             }
             catch(Exception ex)
             {
-                DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert("Error", ex.Message, "OK");
             }
             return false;
         }

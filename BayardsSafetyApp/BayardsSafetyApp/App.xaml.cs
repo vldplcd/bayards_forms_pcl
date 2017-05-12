@@ -5,19 +5,8 @@ namespace BayardsSafetyApp
 {
     public partial class App : Application
     {
-        public const string DATABASE_NAME = "bayards.db";
-        public static DbRepository database;
-        public static DbRepository Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    database = new DbRepository(DATABASE_NAME);
-                }
-                return database;
-            }
-        }
+        private static DataBaseUOW _database;
+        public static DataBaseUOW Database => _database ?? (_database = new DataBaseUOW());
 
         public App()
         {
@@ -26,8 +15,8 @@ namespace BayardsSafetyApp
             if (Device.RuntimePlatform == Device.Android || Device.RuntimePlatform == Device.iOS)
             {
                 var ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
-                LangResources.Culture = ci; // set the RESX for resource localization
-                DependencyService.Get<ILocalize>().SetLocale(ci); // set the Thread for locale-aware methods
+                LangResources.Culture = ci;
+                DependencyService.Get<ILocalize>().SetLocale(ci); 
             }
 
             MainPage = new NavigationPage(new MainPage());
