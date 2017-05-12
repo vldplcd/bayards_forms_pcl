@@ -116,7 +116,9 @@ namespace BayardsSafetyApp
                 {
                     if (ex.InnerException != null && ex.InnerException.Message.StartsWith("A task"))
                     {
+                        contents.Add(new Section() {Name = "Server Error"});
                         throw new TaskCanceledException();
+                        
                     }
                 }
             }
@@ -126,16 +128,17 @@ namespace BayardsSafetyApp
             //    (DateTime) Application.Current.Properties["UpdateTime"] < DateTime.MaxValue)
             //{
             //}
-                //await App.Database.CreateTable<Media>();
-                //await App.Database.CreateTable<Risk>();
-                //await App.Database.CreateTable<SafetyObject>();
-                //await App.Database.CreateTable<Section>();
-                //await App.Database.CreateTable<SectionContents>();
-                //foreach (var item in contents)
-                //{
-                //    await App.Database.InsertItemAsync(item);
-                //}     
             
+            //App.Database.CreateTable<Media>().Wait();
+            //App.Database.CreateTable<Risk>().Wait();
+            //App.Database.CreateTable<SafetyObject>().Wait();
+            await App.Database.CreateTable<Section>();
+            //App.Database.CreateTable<SectionContents>().Wait();
+            await App.Database.InsertItemsAsync(contents);
+            
+            
+
+
             Application.Current.Properties["UpdateTime"] = DateTime.Now;
             return contents;
         }
