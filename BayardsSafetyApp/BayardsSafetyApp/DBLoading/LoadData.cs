@@ -1,9 +1,11 @@
 ﻿using BayardsSafetyApp.Entities;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace BayardsSafetyApp.DBLoading
 {
@@ -15,6 +17,35 @@ namespace BayardsSafetyApp.DBLoading
         List<Section> _sections;
         List<Media> _mediaList;
         string[] _langs = new string[] { "eng", "nl" };
+        string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
+
+        private async void UploadSections(List<Section> sects)
+        {
+
+            using (var context = new SQLiteConnection(databasePath))
+            {
+                context.CreateTable<Section>();
+                context.CreateTable<Risk>();
+                context.CreateTable<Media>();
+                try
+                {
+                    if (sects.Count != 0)
+                        context.InsertAll(sects, typeof(Section));
+                    if (_risks.Count != 0)
+                        context.InsertAll(_risks, typeof(Risk));
+                    if (_mediaList.Count != 0)
+                        context.InsertAll(_mediaList, typeof(Media));
+                }
+                catch(Exception ex)
+                {
+
+                }
+                
+            } 
+            //App.Database.CreateTable<Section>().Wait();
+            //App.Database.InsertItemsAsync(sects).Wait();
+            //Application.Current.Properties["AllSections"] = _sections;
+        }
         public async Task ToDatabase()
         {
             Process = 0;
@@ -49,6 +80,8 @@ namespace BayardsSafetyApp.DBLoading
                     
             }
             Process = 1;
+
+            UploadSections(_sections);
         }
 
         private async Task AllSectionContent(string sectId)
@@ -68,7 +101,7 @@ namespace BayardsSafetyApp.DBLoading
                     {
                         temp_risks.Add(temp_risk);
                         foreach (var url in temp_risk.Media)
-                            temp_mediaList.Add(new Media { Lang = lang, Url = url });
+                            temp_mediaList.Add(new Media { Lang = lang, Url = url, Id_r = r.Id_r });
                     }
                         
                 }

@@ -13,5 +13,7 @@ namespace BayardsSafetyApp.Entities
         public string Type { get; set; }
         [Column("lang")]
         public string Lang { get; set; }
+        [Column("id_r")]
+        public string Id_r { get; set; }
     }
 }

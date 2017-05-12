@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BayardsSafetyApp.Entities;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,11 +39,23 @@ namespace BayardsSafetyApp
         {
             try
             {
-                var load = Task.Run(async () => { await ld.ToDatabase(); });
-                while (load.Status == TaskStatus.Running || load.Status == TaskStatus.WaitingToRun || load.Status == TaskStatus.WaitingForActivation)
+                ld.ToDatabase().Wait();
+                var Cont = new Sections();
+                string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
+                List<Risk> a;
+                List<Media> b;
+                using (var context = new SQLiteConnection(databasePath))
                 {
-                    PrBar.Progress = ld.Process;
+                    Cont.Contents = context.Table<Section>().ToList();
+                    a = context.Table<Risk>().ToList();
                 }
+                
+                //Cont.Contents = (List<Section>)Application.Current.Properties["AllSections"];
+                //await Navigation.PushAsync(Cont);
+                //while (load.Status == TaskStatus.Running || load.Status == TaskStatus.WaitingToRun || load.Status == TaskStatus.WaitingForActivation)
+                //{
+                //    PrBar.Progress = ld.Process;
+                //}
             }
             catch(Exception ex)
             {
