@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BayardsSafetyApp.Entities;
 using SQLite;
 using Xamarin.Forms;
 
@@ -15,6 +16,8 @@ namespace BayardsSafetyApp
             
             string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath(filename);
             context = new SQLiteAsyncConnection(databasePath);
+
+
         }
 
         public async Task CreateTable<T>() where T : new()
@@ -39,12 +42,19 @@ namespace BayardsSafetyApp
         }
         public async Task<int> InsertItemAsync<T>(T item)
         {
-            var res = context.InsertAsync(item).Result;
-            if (res.Equals(0))
+            if (context.InsertAsync(item).Result != 0)
                 return await context.UpdateAsync(item);
-            return res;
+            else
+                return 0;
         }
 
+        public async Task<int> InsertItemsAsync<T>(List<T> items)
+        {
+            if (context.InsertAllAsync(items).Result != 0)
+                return await context.UpdateAllAsync(items);
+            else
+                return 0;
+        }
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
