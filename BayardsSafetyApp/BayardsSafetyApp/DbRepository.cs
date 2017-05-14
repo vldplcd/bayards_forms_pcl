@@ -1,54 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BayardsSafetyApp.Entities;
 using SQLite;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace BayardsSafetyApp
 {
     public class DbRepository : IDbRepository
     {
-        static SQLiteAsyncConnection context;
+        static SQLiteConnection context;
         
         public DbRepository(string filename)
         {          
             string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath(filename);
-            context = new SQLiteAsyncConnection(databasePath);
+            context = new SQLiteConnection(databasePath);
+            switch (filename)
+            {
+                case "bayards_sections.db":
+                    context.CreateTable<Section>();
+                    break;
+                case "bayards_risks.db":
+                    context.CreateTable<Risk>();
+                    break;
+                case "bayards_media.db":
+                    context.CreateTable<Media>();
+                    break;
+            }
         }
 
-        public async Task CreateTable<T>() where T : new()
+        public IEnumerable<T> GetItems<T>() where T : new()
         {
-            await context.CreateTableAsync<T>();
+            return (from i in context.Table<T>() select i).ToList();
+
         }
-        public async Task<List<T>> GetItemsAsync<T>() where T : new()
+        public T GetItem<T>(int id) where T : new()
         {
-            return await context.Table<T>().ToListAsync();
+            return context.Get<T>(id);
         }
-        public async Task<T> GetItemAsync<T>(int id) where T : new()
+        public int DeleteItem<T>(T item)
         {
-            return await context.GetAsync<T>(id);
+            return context.Delete(item);
         }
-        public async Task<int> DeleteItemAsync<T>(T item)
+
+        public int InsertItem<T>(T item)
         {
-            return await context.DeleteAsync(item);
-        }
-        public async Task<int> UpdateItemAsync<T>(T item)
-        {
-            return await context.UpdateAsync(item);
-        }
-        public async Task<int> InsertItemAsync<T>(T item)
-        {
-            if (context.InsertAsync(item).Result != 0)
-                return await context.UpdateAsync(item);
+            if (context.Insert(item) != 0)
+                return context.Update(item);
             else
                 return 0;
         }
 
-        public async Task<int> InsertItemsAsync<T>(List<T> items)
+        public int InsertItems<T>(List<T> items)
         {
-            if (context.InsertAllAsync(items).Result != 0)
-                return await context.UpdateAllAsync(items);
+            if (context.InsertAll(items) != 0)
+                return context.UpdateAll(items);
             else
                 return 0;
         }
@@ -61,7 +67,7 @@ namespace BayardsSafetyApp
             {
                 if (disposing)
                 {
-                    SQLiteAsyncConnection.ResetPool();
+                    context.Dispose();
                 }
             }
             this.disposed = true;

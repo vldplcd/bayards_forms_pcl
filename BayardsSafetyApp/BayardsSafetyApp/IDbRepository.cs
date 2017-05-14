@@ -6,12 +6,10 @@ namespace BayardsSafetyApp
 {
     public interface IDbRepository : IDisposable
     {
-        Task<int> InsertItemAsync<T>(T item);
-        Task<int> InsertItemsAsync<T>(List<T> items);
-        Task<int> UpdateItemAsync<T>(T item);
-        Task<int> DeleteItemAsync<T>(T model);
-        Task<T> GetItemAsync<T>(int id) where T : new();
-        Task<List<T>> GetItemsAsync<T>() where T : new();
-        Task CreateTable<T>() where T : new();
+        int InsertItem<T>(T item);
+        int InsertItems<T>(List<T> items);
+        int DeleteItem<T>(T model);
+        T GetItem<T>(int id) where T : new();
+        IEnumerable<T> GetItems<T>() where T : new();       
     }
 }

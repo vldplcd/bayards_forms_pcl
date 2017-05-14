@@ -17,27 +17,26 @@ namespace BayardsSafetyApp.DBLoading
         List<Section> _sections;
         List<Media> _mediaList;
         string[] _langs = new string[] { "eng", "nl" };
-        string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
 
-        public async void UploadSections(List<Section> sects)
+        public void UploadSections(List<Section> sects)
         {
-            using (var context = App.Database.SectionDatabase)
+            sects.Add(new Section() { Name = "Test SQLite", Id_s = "1", Lang = "en", _id = 1});
+            using (var context = App.Database)
             {
-                await context.CreateTable<Section>();
-                await context.InsertItemsAsync(_sections);
+                context.SectionDatabase.InsertItems(sects);
             }
 
-            using (var context = App.Database.RiskDatabase)
-            {
-                await context.CreateTable<Risk>();
-                await context.InsertItemsAsync(_risks);
-            }
+            //using (var context = App.Database.RiskDatabase)
+            //{
+            //    await context.CreateTable<Risk>();
+            //    await context.InsertItemsAsync(_risks);
+            //}
 
-            using (var context = App.Database.MediaDatabase)
-            {
-                await context.CreateTable<Media>();
-                await context.InsertItemsAsync(_mediaList);
-            }
+            //using (var context = App.Database.MediaDatabase)
+            //{
+            //    await context.CreateTable<Media>();
+            //    await context.InsertItemsAsync(_mediaList);
+            //}
         }
         public async Task ToDatabase()
         {

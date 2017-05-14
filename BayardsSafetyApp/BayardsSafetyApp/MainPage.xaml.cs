@@ -1,6 +1,7 @@
 ﻿using BayardsSafetyApp.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace BayardsSafetyApp
             InitializeComponent();
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
+            PasswordEntry.Text = "central";
             BackgroundColor = Color.FromHex("#efefef");
         }
 
@@ -37,7 +39,7 @@ namespace BayardsSafetyApp
             var AllSections = new Sections();
             try
             {                
-                await Task.Run(() =>
+                await Task.Run( async () =>
                 {
 
                     var api = new API();
@@ -45,7 +47,7 @@ namespace BayardsSafetyApp
                     {
                         if (Application.Current.Properties.ContainsKey("LocAgr") && (bool)Application.Current.Properties["LocAgr"])
                         {
-                            //.Contents = await LoadSections();                             
+                            AllSections.Contents = await LoadSections();                             
                             throw new Exception("1");
                         }
 
@@ -83,55 +85,55 @@ namespace BayardsSafetyApp
 
         private void PasswordEntry_Completed(object sender, EventArgs e)
         {
-
             password = ((Entry)sender).Text;
+            ContinueButton_Clicked(new object(), new EventArgs());
         }
 
-        //private async Task<List<Section>> LoadSections()
-        //{
-        //    List<Section> contents = new List<Section>();
-        //    if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
-        //        (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
-        //    {
-        //        throw new Exception("3");
-        //    }
-        //    else
-        //    {
-        //        contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
-        //    }
-        //    API api = new API();
-        //    bool flag = false;
-        //    while (!flag)
-        //    {
-        //        try
-        //        {
-        //            contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
-        //            flag = true;
-        //        }
-        //        catch (Newtonsoft.Json.JsonReaderException)
-        //        {
-        //            throw new TaskCanceledException();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
-        //            {
-        //                throw new TaskCanceledException();
-        //            }
-        //        }
-        //    }
-            
-        //        //await App.Database.CreateTable<Media>();
-        //        //await App.Database.CreateTable<Risk>();
-        //        //await App.Database.CreateTable<SafetyObject>();
-        //        //await App.Database.CreateTable<Section>();
-        //        //await App.Database.CreateTable<SectionContents>();
-        //        //foreach (var item in contents)
-        //        //{
-        //        //    await App.Database.InsertItemAsync(item);
-        //        //}
-        //    return contents;
-        //}
+        private async Task<List<Section>> LoadSections()
+        {
+            List<Section> contents = new List<Section>();
+            if (!Application.Current.Properties.ContainsKey("UpdateTime") || (Application.Current.Properties.ContainsKey("UpdateTime") &&
+                (DateTime)Application.Current.Properties["UpdateTime"] < DateTime.MaxValue))
+            {
+                throw new Exception("3");
+            }
+            else
+            {
+                contents = (App.Database.SectionDatabase.GetItems<Section>()).ToList().FindAll(s => s.Parent_s == "null");
+            }
+            API api = new API();
+            bool flag = false;
+            while (!flag)
+            {
+                try
+                {
+                    contents = await api.getCompleteSectionsList(AppResources.LangResources.Language);
+                    flag = true;
+                }
+                catch (Newtonsoft.Json.JsonReaderException)
+                {
+                    throw new TaskCanceledException();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null && (ex.InnerException.Message.StartsWith("A task") || ex.InnerException.Message.EndsWith("request")))
+                    {
+                        throw new TaskCanceledException();
+                    }
+                }
+            }
+
+            //await App.Database.CreateTable<Media>();
+            //await App.Database.CreateTable<Risk>();
+            //await App.Database.CreateTable<SafetyObject>();
+            //await App.Database.CreateTable<Section>();
+            //await App.Database.CreateTable<SectionContents>();
+            //foreach (var item in contents)
+            //{
+            //    await App.Database.InsertItemAsync(item);
+            //}
+            return contents;
+        }
 
         private void SearchBar_Activated(object sender, EventArgs e)
         {
