@@ -23,7 +23,14 @@ namespace BayardsSafetyApp.DBLoading
         {
             using (var context = App.Database.SectionDatabase)
             {
-                await context.CreateTable<Section>();
+                try
+                {
+                   await context.CreateTable<Section>();
+                }
+                catch(Exception ex)
+                {
+
+                }
                 await context.InsertItemsAsync(_sections);
             }
 
