@@ -39,25 +39,28 @@ namespace BayardsSafetyApp
         {
             try
             {
-                ld.ToDatabase().Wait();
+               // ld.UploadSections(new List<Section>());
                 var Cont = new Sections();
-                string databasePath = DependencyService.Get<ISQLite>().GetDatabasePath("bayards.db");
+                
                 List<Risk> a;
                 List<Media> b;
-                using (var context = App.Database.SectionDatabase)
+
+
+
+                using (var context = App.Database)
                 {
-                    Cont.Contents = await context.GetItemsAsync<Section>();
+                    Cont.Contents = context.SectionDatabase.GetItems<Section>().ToList();    
                 }
 
-                using (var context = App.Database.RiskDatabase)
-                {
-                    a = await context.GetItemsAsync<Risk>();
-                }
+                //using (var context = App.Database.RiskDatabase)
+                //{
+                //    a = await context.GetItemsAsync<Risk>();
+                //}
 
-                using (var context = App.Database.MediaDatabase)
-                {
-                    b = await context.GetItemsAsync<Media>();
-                }
+                //using (var context = App.Database.MediaDatabase)
+                //{
+                //    b = await context.GetItemsAsync<Media>();
+                //}
 
                 await Navigation.PushAsync(Cont);
                 //while (load.Status == TaskStatus.Running || load.Status == TaskStatus.WaitingToRun || load.Status == TaskStatus.WaitingForActivation)

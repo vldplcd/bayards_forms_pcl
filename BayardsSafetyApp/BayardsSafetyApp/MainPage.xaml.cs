@@ -1,6 +1,7 @@
 ﻿using BayardsSafetyApp.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace BayardsSafetyApp
             InitializeComponent();
             AInd.IsEnabled = false;
             AInd.IsRunning = false;
+            PasswordEntry.Text = "central";
             BackgroundColor = Color.FromHex("#efefef");
         }
 
@@ -37,7 +39,7 @@ namespace BayardsSafetyApp
             var AllSections = new Sections();
             try
             {                
-                await Task.Run(async () =>
+                await Task.Run( async () =>
                 {
 
                     var api = new API();
@@ -83,8 +85,8 @@ namespace BayardsSafetyApp
 
         private void PasswordEntry_Completed(object sender, EventArgs e)
         {
-
             password = ((Entry)sender).Text;
+            ContinueButton_Clicked(new object(), new EventArgs());
         }
 
         private async Task<List<Section>> LoadSections()
@@ -97,7 +99,7 @@ namespace BayardsSafetyApp
             }
             else
             {
-                //contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
+                contents = (App.Database.SectionDatabase.GetItems<Section>()).ToList().FindAll(s => s.Parent_s == "null");
             }
             API api = new API();
             bool flag = false;

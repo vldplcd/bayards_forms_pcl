@@ -2,6 +2,7 @@
 using BayardsSafetyApp.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 //using Android.Media;
 using Xamarin.Forms;
@@ -62,7 +63,7 @@ namespace BayardsSafetyApp
             }
             else
             {
-                throw new Exception();//contents = (await App.Database.GetItemsAsync<Section>()).FindAll(s => s.Parent_s == "null");
+                contents = (App.Database.SectionDatabase.GetItems<Section>()).ToList().FindAll(s => s.Parent_s == "null");
             }
             API api = new API();
             bool flag = false;
@@ -86,15 +87,7 @@ namespace BayardsSafetyApp
                 }
             }
 
-            //await App.Database.CreateTable<Media>();
-            //await App.Database.CreateTable<Risk>();
-            //await App.Database.CreateTable<SafetyObject>();
-            //await App.Database.CreateTable<Section>();
-            //await App.Database.CreateTable<SectionContents>();
-            //foreach (var item in contents)
-            //{
-            //    await App.Database.InsertItemAsync(item);
-            //}
+          
             return contents;
         }
     }
